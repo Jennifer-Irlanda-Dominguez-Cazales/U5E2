@@ -1,0 +1,102 @@
+
+package u5e2;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+/**
+ *
+ * @author Dominguez Cazales Jennifer
+ */
+public class Operaciones {
+    Scanner leer = new Scanner(System.in);
+    List <Integer>lista = new ArrayList<Integer>();
+    Random r = new Random();
+
+    public void Ingresar() {
+        int can;
+        System.out.println("Se ingresaran numeros aleatorios entre el 1 y el 100");
+        System.out.println("¿Cuantos numeros deseas ingresar?");
+        can=leer.nextInt();
+        for (int i = 0; i < can; i++) {
+            int valorDado = r.nextInt(100); 
+            lista.add(valorDado);
+        }
+    }
+    public void Mostrar() {
+        int cantidad=lista.size();
+        if (cantidad==0) {
+            System.out.println("La lista esta vacia, ingresa algo");
+        }else{
+                 System.out.println(lista);      
+        }
+ 
+    }
+    public void Ordenar() {
+        if (lista.size()==0) {
+            System.out.println("La lista se encuentra vacia, ingresa algo");
+        }else{
+            quicksort(lista, 0, lista.size() - 1);
+        }
+         
+    }
+     private static int particion(List <Integer> arreglo, int izquierda, int derecha) {
+        // Elegimos el pivote, es el primero
+        //System.out.println(miprimerlista.get(1));
+        //int pivote = arreglo[izquierda];
+        int pivote;
+         pivote=arreglo.get(izquierda);
+        // Ciclo infinito
+        while (true) {
+            // Mientras cada elemento desde la izquierda esté en orden (sea menor que el
+            // pivote) continúa avanzando el índice
+            while (arreglo.get(izquierda) < pivote) {
+                izquierda++;
+            }
+            // Mientras cada elemento desde la derecha esté en orden (sea mayor que el
+            // pivote) continúa disminuyendo el índice
+            while (arreglo.get(derecha) > pivote) {
+                derecha--;
+            }
+    /*
+    Si la izquierda es mayor o igual que la derecha significa que no
+    necesitamos hacer ningún intercambio
+    de variables, pues los elementos ya están en orden (al menos en esta
+    iteración)
+    */
+            if (izquierda >= derecha) {
+                // Indicar "en dónde nos quedamos" para poder dividir el arreglo de nuevo
+                // y ordenar los demás elementos
+                return derecha;
+            } else {//Nota: yo sé que el else no hace falta por el return de arriba, pero así el algoritmo es más claro
+      /*
+      Si las variables quedaron "lejos" (es decir, la izquierda no superó ni
+      alcanzó a la derecha)
+      significa que se detuvieron porque encontraron un valor que no estaba
+      en orden, así que lo intercambiamos
+      */
+      
+                int temporal = arreglo.get(izquierda);
+                //miprimerlista.set(0, 90);
+                arreglo.set(izquierda,arreglo.get(derecha));
+                //arreglo[izquierda] = arreglo[derecha];
+                arreglo.set(derecha,temporal);
+                //arreglo[derecha] = temporal;
+      /*
+      Ya intercambiamos, pero seguimos avanzando los índices una vez más
+      */
+                izquierda++;
+                derecha--;
+            }
+            // El while se repite hasta que izquierda >= derecha
+        }
+    }
+    // Divide y vencerás
+    private static void quicksort(List <Integer> arreglo, int izquierda, int derecha) {
+        if (izquierda < derecha) {
+            int indiceParticion = particion(arreglo, izquierda, derecha);
+            quicksort(arreglo, izquierda, indiceParticion);
+            quicksort(arreglo, indiceParticion + 1, derecha);
+        }
+    }
+}
